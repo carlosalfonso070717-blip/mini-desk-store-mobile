@@ -8,7 +8,7 @@ export function CartButton() {
   const itemCount = useCartBadge();
 
   return (
-    <Pressable onPress={() => router.push('/cart')} style={styles.button} hitSlop={8}>
+    <Pressable onPress={() => router.push('./cart')} style={styles.button} hitSlop={8}>
       <Text style={styles.icon}>🛒</Text>
       {itemCount > 0 && (
         <View style={styles.badge}>

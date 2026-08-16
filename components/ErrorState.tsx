@@ -8,7 +8,7 @@ interface ErrorStateProps {
 }
 
 export function ErrorState({
-  message = 'Ocurrió un error al cargar la información.',
+  message = "We couldn't load the information.",
   onRetry,
 }: ErrorStateProps) {
   return (
@@ -16,11 +16,11 @@ export function ErrorState({
       <View style={styles.iconWrapper}>
         <Ionicons name="alert-circle-outline" size={40} color={colors.error} />
       </View>
-      <Text style={styles.title}>Algo salió mal</Text>
+      <Text style={styles.title}>Something went wrong</Text>
       <Text style={styles.text}>{message}</Text>
       {onRetry && (
         <Pressable onPress={onRetry} style={styles.button}>
-          <Text style={styles.buttonText}>Reintentar</Text>
+          <Text style={styles.buttonText}>Retry</Text>
         </Pressable>
       )}
     </View>

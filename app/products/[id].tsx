@@ -17,13 +17,13 @@ export default function ProductDetailScreen() {
   const { data: product, isPending, isError, error, refetch } = useProduct(productId);
 
   if (isPending) {
-    return <LoadingState message="Cargando producto..." />;
+    return <LoadingState message="Loading product..." />;
   }
 
   if (isError || !product) {
     return (
       <ErrorState
-        message={error instanceof Error ? error.message : 'No se encontró el producto.'}
+        message={error instanceof Error ? error.message : 'Product not found.'}
         onRetry={refetch}
       />
     );
@@ -58,7 +58,7 @@ function ProductDetailContent({ product }: { product: Product }) {
           <Text style={styles.title}>{product.title}</Text>
           <Text style={styles.price}>{formatPrice(product.price)}</Text>
 
-          <Text style={styles.sectionTitle}>Descripción</Text>
+          <Text style={styles.sectionTitle}>Description</Text>
           <Text style={styles.description}>{product.description}</Text>
         </View>
       </ScrollView>
@@ -67,7 +67,7 @@ function ProductDetailContent({ product }: { product: Product }) {
         <QuantitySelector quantity={quantity} onIncrement={increment} onDecrement={decrement} />
         <Pressable style={styles.cartButton} onPress={() => router.push('/cart')}>
           <Ionicons name="cart-outline" size={18} color={colors.primaryText} />
-          <Text style={styles.cartButtonText}>Ir al carrito</Text>
+          <Text style={styles.cartButtonText}>Go to cart</Text>
         </Pressable>
       </View>
     </View>

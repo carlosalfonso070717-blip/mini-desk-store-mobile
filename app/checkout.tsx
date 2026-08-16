@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, radius, shadow, spacing, typography } from '../constants/theme';
@@ -27,9 +27,20 @@ export default function CheckoutScreen() {
 
   function handleConfirm() {
     setIsProcessing(true);
+    const orderNumber = String(Math.floor(100000 + Math.random() * 900000));
+    const itemCount = lines.length;
+    const totalPaid = total;
+
     setTimeout(() => {
       clearCart();
-      router.replace('/success');
+      router.replace({
+        pathname: '/success',
+        params: {
+          orderNumber,
+          totalPaid: totalPaid.toFixed(2),
+          itemCount: String(itemCount),
+        },
+      });
     }, 1200);
   }
 
@@ -37,44 +48,76 @@ export default function CheckoutScreen() {
     <View style={styles.screen}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={[styles.card, shadow.card]}>
-          <Text style={styles.sectionTitle}>Resumen del pedido</Text>
-          <View style={styles.summaryRow}>
-            <Text style={styles.summaryLabel}>Productos ({lines.length})</Text>
-            <Text style={styles.summaryValue}>{formatPrice(total)}</Text>
-          </View>
-          <View style={styles.divider} />
-          <View style={styles.summaryRow}>
-            <Text style={styles.totalLabel}>Total a pagar</Text>
-            <Text style={styles.totalValue}>{formatPrice(total)}</Text>
-          </View>
-        </View>
+          <Text style={styles.sectionTitle}>Payment Details</Text>
 
-        <View style={[styles.card, shadow.card]}>
-          <Text style={styles.sectionTitle}>Datos de pago (simulado)</Text>
-
-          <View style={styles.inputWrapper}>
+          <Field label="FULL NAME">
             <Ionicons name="person-outline" size={18} color={colors.textSecondary} />
             <TextInput
               style={styles.input}
-              placeholder="Nombre en la tarjeta"
+              placeholder="John Doe"
               placeholderTextColor={colors.textSecondary}
               editable={!isProcessing}
             />
-          </View>
+          </Field>
 
-          <View style={styles.inputWrapper}>
+          <Field label="CARD NUMBER">
             <Ionicons name="card-outline" size={18} color={colors.textSecondary} />
             <TextInput
               style={styles.input}
-              placeholder="Número de tarjeta"
+              placeholder="0000 0000 0000 0000"
               placeholderTextColor={colors.textSecondary}
               keyboardType="number-pad"
               editable={!isProcessing}
             />
-          </View>
+          </Field>
 
-          <Text style={styles.trustText}>Pago simulado, no se procesa ningún cobro real.</Text>
+          <View style={styles.row}>
+            <View style={styles.flexInput}>
+              <Field label="EXPIRATION">
+                <Ionicons name="calendar-outline" size={18} color={colors.textSecondary} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="MM/YY"
+                  placeholderTextColor={colors.textSecondary}
+                  keyboardType="number-pad"
+                  maxLength={5}
+                  editable={!isProcessing}
+                />
+              </Field>
+            </View>
+            <View style={styles.flexInput}>
+              <Field label="CVV">
+                <Ionicons name="lock-closed-outline" size={18} color={colors.textSecondary} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="123"
+                  placeholderTextColor={colors.textSecondary}
+                  keyboardType="number-pad"
+                  maxLength={4}
+                  secureTextEntry
+                  editable={!isProcessing}
+                />
+              </Field>
+            </View>
+          </View>
         </View>
+
+        <View style={[styles.card, shadow.card]}>
+          <Text style={styles.sectionTitle}>Order Summary</Text>
+          <View style={styles.summaryRow}>
+            <Text style={styles.summaryLabel}>Subtotal ({lines.length} items)</Text>
+            <Text style={styles.summaryValue}>{formatPrice(total)}</Text>
+          </View>
+          <View style={styles.divider} />
+          <View style={styles.summaryRow}>
+            <Text style={styles.totalLabel}>Total</Text>
+            <Text style={styles.totalValue}>{formatPrice(total)}</Text>
+          </View>
+        </View>
+
+        <Text style={styles.trustText}>
+          This is a simulated payment — no real charge will be made.
+        </Text>
       </ScrollView>
 
       <View style={[styles.footer, { paddingBottom: insets.bottom + spacing.sm }]}>
@@ -88,7 +131,7 @@ export default function CheckoutScreen() {
           ) : (
             <>
               <Ionicons name="lock-closed" size={16} color={colors.primaryText} />
-              <Text style={styles.confirmButtonText}>Confirmar pago</Text>
+              <Text style={styles.confirmButtonText}>Confirm Payment</Text>
             </>
           )}
         </Pressable>
@@ -97,17 +140,24 @@ export default function CheckoutScreen() {
   );
 }
 
+function Field({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <View style={styles.field}>
+      <Text style={styles.fieldLabel}>{label}</Text>
+      <View style={styles.inputWrapper}>{children}</View>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.background },
   scrollContent: { padding: spacing.lg, gap: spacing.md },
   card: { backgroundColor: colors.background, borderRadius: radius.lg, padding: spacing.md, gap: spacing.sm },
-  sectionTitle: { ...typography.subtitle, color: colors.text },
-  summaryRow: { flexDirection: 'row', justifyContent: 'space-between' },
-  summaryLabel: { ...typography.body, color: colors.textSecondary },
-  summaryValue: { ...typography.body, color: colors.text },
-  divider: { height: StyleSheet.hairlineWidth, backgroundColor: colors.border },
-  totalLabel: { ...typography.subtitle, color: colors.text },
-  totalValue: { ...typography.subtitle, color: colors.primary },
+  sectionTitle: { ...typography.subtitle, color: colors.text, marginBottom: spacing.xs },
+  field: { gap: 4 },
+  fieldLabel: { ...typography.caption, color: colors.textSecondary, fontWeight: '600', letterSpacing: 0.4 },
+  row: { flexDirection: 'row', gap: spacing.sm },
+  flexInput: { flex: 1 },
   inputWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -118,7 +168,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.sm,
   },
   input: { flex: 1, ...typography.body, color: colors.text, paddingVertical: spacing.sm },
-  trustText: { ...typography.caption, color: colors.textSecondary },
+  summaryRow: { flexDirection: 'row', justifyContent: 'space-between' },
+  summaryLabel: { ...typography.body, color: colors.textSecondary },
+  summaryValue: { ...typography.body, color: colors.text },
+  divider: { height: StyleSheet.hairlineWidth, backgroundColor: colors.border },
+  totalLabel: { ...typography.subtitle, color: colors.text },
+  totalValue: { ...typography.subtitle, color: colors.primary },
+  trustText: { ...typography.caption, color: colors.textSecondary, textAlign: 'center' },
   footer: {
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.sm,

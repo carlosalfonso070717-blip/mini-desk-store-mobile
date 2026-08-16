@@ -6,7 +6,7 @@ interface LoadingStateProps {
   message?: string;
 }
 
-export function LoadingState({ message = 'Cargando...' }: LoadingStateProps) {
+export function LoadingState({ message = 'Loading...' }: LoadingStateProps) {
   return (
     <View style={styles.container}>
       <ActivityIndicator size="large" color={colors.primary} />

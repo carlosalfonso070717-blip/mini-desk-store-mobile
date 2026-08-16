@@ -1,27 +1,58 @@
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { colors, radius, spacing, typography } from '../constants/theme';
+import { colors, radius, shadow, spacing, typography } from '../constants/theme';
 
 export default function SuccessScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const { orderNumber, totalPaid, itemCount } = useLocalSearchParams<{
+    orderNumber: string;
+    totalPaid: string;
+    itemCount: string;
+  }>();
 
   return (
     <View style={[styles.container, { paddingBottom: insets.bottom + spacing.lg }]}>
       <View style={styles.iconCircle}>
         <Ionicons name="checkmark-circle" size={64} color={colors.success} />
       </View>
-      <Text style={styles.title}>¡Pago completado con éxito!</Text>
+      <Text style={styles.title}>Payment Completed Successfully!</Text>
       <Text style={styles.message}>
-        Tu pedido fue procesado correctamente. Gracias por tu compra.
+        Your order has been processed and is being prepared for shipping.
       </Text>
+
+      <View style={[styles.card, shadow.card]}>
+        <DetailRow label="Order Number" value={`#${orderNumber}`} />
+        <DetailRow label="Items" value={itemCount ?? '0'} />
+        <DetailRow label="Total Paid" value={`$${totalPaid}`} />
+        <DetailRow label="Estimated Delivery" value={getDeliveryRange()} />
+      </View>
+
       <Pressable style={styles.button} onPress={() => router.dismissTo('/products')}>
-        <Text style={styles.buttonText}>Volver al catálogo</Text>
+        <Text style={styles.buttonText}>Back to Shop</Text>
       </Pressable>
     </View>
   );
+}
+
+function DetailRow({ label, value }: { label: string; value: string }) {
+  return (
+    <View style={styles.detailRow}>
+      <Text style={styles.detailLabel}>{label}</Text>
+      <Text style={styles.detailValue}>{value}</Text>
+    </View>
+  );
+}
+
+function getDeliveryRange() {
+  const start = new Date();
+  start.setDate(start.getDate() + 3);
+  const end = new Date();
+  end.setDate(end.getDate() + 6);
+  const formatter = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' });
+  return `${formatter.format(start)} - ${formatter.format(end)}`;
 }
 
 const styles = StyleSheet.create({
@@ -33,8 +64,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   iconCircle: {
-    width: 110,
-    height: 110,
+    width: 100,
+    height: 100,
     borderRadius: radius.full,
     backgroundColor: '#DCFCE7',
     alignItems: 'center',
@@ -42,7 +73,31 @@ const styles = StyleSheet.create({
     marginBottom: spacing.lg,
   },
   title: { ...typography.title, color: colors.text, textAlign: 'center', marginBottom: spacing.xs },
-  message: { ...typography.body, color: colors.textSecondary, textAlign: 'center', marginBottom: spacing.xl },
-  button: { backgroundColor: colors.primary, paddingVertical: spacing.md, paddingHorizontal: spacing.xl, borderRadius: radius.md },
+  message: {
+    ...typography.body,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    marginBottom: spacing.lg,
+  },
+  card: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: colors.background,
+    borderRadius: radius.lg,
+    padding: spacing.md,
+    gap: spacing.sm,
+    marginBottom: spacing.lg,
+  },
+  detailRow: { flexDirection: 'row', justifyContent: 'space-between' },
+  detailLabel: { ...typography.body, color: colors.textSecondary },
+  detailValue: { ...typography.subtitle, color: colors.text },
+  button: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: colors.primary,
+    paddingVertical: spacing.md,
+    borderRadius: radius.md,
+    alignItems: 'center',
+  },
   buttonText: { ...typography.subtitle, color: colors.primaryText },
 });

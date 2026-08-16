@@ -7,6 +7,7 @@ import { LoadingState } from '../../components/LoadingState';
 import { ProductCard } from '../../components/ProductCard';
 import { colors, radius, spacing, typography } from '../../constants/theme';
 import { useProducts } from '../../hooks/useProducts';
+
 export default function ProductsScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -25,7 +26,7 @@ export default function ProductsScreen() {
   }, [products, selectedCategory]);
 
   if (isPending) {
-    return <LoadingState message="Cargando catálogo..." />;
+    return <LoadingState message="Loading products..." />;
   }
 
   if (isError) {
@@ -42,7 +43,7 @@ export default function ProductsScreen() {
         contentContainerStyle={styles.chipsRow}
       >
         <CategoryChip
-          label="Todos"
+          label="All"
           active={selectedCategory === null}
           onPress={() => setSelectedCategory(null)}
         />
@@ -62,7 +63,8 @@ export default function ProductsScreen() {
         numColumns={2}
         refreshing={isRefetching}
         onRefresh={refetch}
-        contentContainerStyle={[styles.list, { paddingBottom: insets.bottom + spacing.md }]}        renderItem={({ item }) => (
+        contentContainerStyle={[styles.list, { paddingBottom: insets.bottom + spacing.md }]}
+        renderItem={({ item }) => (
           <ProductCard
             product={item}
             onPress={() =>
@@ -86,15 +88,23 @@ function CategoryChip({
 }) {
   return (
     <Pressable onPress={onPress} style={[styles.chip, active && styles.chipActive]}>
-      <Text style={[styles.chipText, active && styles.chipTextActive]}>{label}</Text>
+      <Text style={[styles.chipText, active && styles.chipTextActive]} numberOfLines={1}>
+        {label}
+      </Text>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
-  chipsRow: { paddingHorizontal: spacing.md, paddingVertical: spacing.sm },
+  chipsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+  },
   chip: {
+    alignSelf: 'flex-start',
     paddingVertical: spacing.xs,
     paddingHorizontal: spacing.md,
     borderRadius: radius.full,

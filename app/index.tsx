@@ -28,10 +28,10 @@ export default function WelcomeScreen() {
       </View>
       <Text style={styles.title}>Mini Desk Store</Text>
       <Text style={styles.subtitle}>
-        Artículos esenciales de calidad, entregados en tu puerta.
+        Quality guaranteed to your doorstep.
       </Text>
       <Pressable style={styles.button} onPress={() => router.push('/products')}>
-        <Text style={styles.buttonText}>Ir a la tienda</Text>
+        <Text style={styles.buttonText}>Shop Now</Text>
         <Ionicons name="arrow-forward" size={18} color={colors.primary} />
       </Pressable>
     </LinearGradient>

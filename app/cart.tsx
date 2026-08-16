@@ -16,9 +16,9 @@ export default function CartScreen() {
   if (lines.length === 0) {
     return (
       <EmptyState
-        title="Tu carrito está vacío"
-        message="Agrega productos desde el catálogo para verlos aquí."
-        actionLabel="Ir al catálogo"
+        title="Your cart is empty"
+        message="Add products from the shop to see them here."
+        actionLabel="Go to Shop"
         onAction={() => router.push('/products')}
       />
     );
@@ -45,7 +45,7 @@ export default function CartScreen() {
           <Text style={styles.totalValue}>{formatPrice(total)}</Text>
         </View>
         <Pressable style={styles.checkoutButton} onPress={() => router.push('/checkout')}>
-          <Text style={styles.checkoutButtonText}>Continuar al pago</Text>
+          <Text style={styles.checkoutButtonText}>Proceed to Payment</Text>
           <Ionicons name="arrow-forward" size={18} color={colors.primaryText} />
         </Pressable>
       </View>

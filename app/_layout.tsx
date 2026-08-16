@@ -34,14 +34,14 @@ export default function RootLayout() {
           <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen
             name="products/index"
-            options={{ title: 'Catálogo', headerRight: () => <CartButton /> }}
+            options={{ title: 'Products', headerRight: () => <CartButton /> }}
           />
           <Stack.Screen
             name="products/[id]"
-            options={{ title: 'Detalle', headerRight: () => <CartButton /> }}
+            options={{ title: 'Detail', headerRight: () => <CartButton /> }}
           />
-          <Stack.Screen name="cart" options={{ title: 'Carrito' }} />
-          <Stack.Screen name="checkout" options={{ title: 'Pago' }} />
+          <Stack.Screen name="cart" options={{ title: 'Cart' }} />
+          <Stack.Screen name="checkout" options={{ title: 'Checkout' }} />
           <Stack.Screen name="success" options={{ headerShown: false, gestureEnabled: false }} />
         </Stack>
       </SafeAreaProvider>

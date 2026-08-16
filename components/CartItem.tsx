@@ -22,7 +22,7 @@ export function CartItem({ line, onIncrement, onDecrement, onRemove }: CartItemP
         <Text style={styles.title} numberOfLines={2}>
           {line.product.title}
         </Text>
-        <Text style={styles.unitPrice}>{formatPrice(line.product.price)} c/u</Text>
+        <Text style={styles.unitPrice}>{formatPrice(line.product.price)} each</Text>
         <QuantitySelector quantity={line.quantity} onIncrement={onIncrement} onDecrement={onDecrement} />
       </View>
       <View style={styles.right}>

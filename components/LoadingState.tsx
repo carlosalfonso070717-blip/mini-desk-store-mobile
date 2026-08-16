@@ -22,9 +22,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: spacing.md,
     padding: spacing.lg,
+    backgroundColor: colors.background,
   },
-  text: {
-    ...typography.body,
-    color: colors.textSecondary,
-  },
+  text: { ...typography.body, color: colors.textSecondary },
 });

@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { colors, radius } from '../constants/theme';
@@ -8,11 +9,11 @@ export function CartButton() {
   const itemCount = useCartBadge();
 
   return (
-    <Pressable onPress={() => router.push('./cart')} style={styles.button} hitSlop={8}>
-      <Text style={styles.icon}>🛒</Text>
+    <Pressable onPress={() => router.push('/cart')} style={styles.button} hitSlop={8}>
+      <Ionicons name="cart-outline" size={24} color={colors.text} />
       {itemCount > 0 && (
         <View style={styles.badge}>
-          <Text style={styles.badgeText}>{itemCount}</Text>
+          <Text style={styles.badgeText}>{itemCount > 99 ? '99+' : itemCount}</Text>
         </View>
       )}
     </Pressable>
@@ -20,18 +21,10 @@ export function CartButton() {
 }
 
 const styles = StyleSheet.create({
-  button: {
-    width: 40,
-    height: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  icon: {
-    fontSize: 22,
-  },
+  button: { width: 40, height: 40, alignItems: 'center', justifyContent: 'center' },
   badge: {
     position: 'absolute',
-    top: 0,
+    top: 2,
     right: 0,
     minWidth: 18,
     height: 18,
@@ -41,9 +34,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 4,
   },
-  badgeText: {
-    color: colors.primaryText,
-    fontSize: 11,
-    fontWeight: '700',
-  },
+  badgeText: { color: colors.primaryText, fontSize: 11, fontWeight: '700' },
 });

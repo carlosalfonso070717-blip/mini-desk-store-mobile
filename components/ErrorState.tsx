@@ -1,4 +1,4 @@
-// components/ErrorState.tsx
+import { Ionicons } from '@expo/vector-icons';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { colors, radius, spacing, typography } from '../constants/theme';
 
@@ -13,6 +13,9 @@ export function ErrorState({
 }: ErrorStateProps) {
   return (
     <View style={styles.container}>
+      <View style={styles.iconWrapper}>
+        <Ionicons name="alert-circle-outline" size={40} color={colors.error} />
+      </View>
       <Text style={styles.title}>Algo salió mal</Text>
       <Text style={styles.text}>{message}</Text>
       {onRetry && (
@@ -31,16 +34,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: spacing.sm,
     padding: spacing.lg,
+    backgroundColor: colors.background,
   },
-  title: {
-    ...typography.subtitle,
-    color: colors.error,
+  iconWrapper: {
+    width: 72,
+    height: 72,
+    borderRadius: radius.full,
+    backgroundColor: '#FEE2E2',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: spacing.xs,
   },
-  text: {
-    ...typography.body,
-    color: colors.textSecondary,
-    textAlign: 'center',
-  },
+  title: { ...typography.subtitle, color: colors.text },
+  text: { ...typography.body, color: colors.textSecondary, textAlign: 'center' },
   button: {
     marginTop: spacing.md,
     backgroundColor: colors.primary,
@@ -48,8 +54,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.lg,
     borderRadius: radius.md,
   },
-  buttonText: {
-    ...typography.subtitle,
-    color: colors.primaryText,
-  },
+  buttonText: { ...typography.subtitle, color: colors.primaryText },
 });

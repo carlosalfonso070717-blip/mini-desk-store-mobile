@@ -1,5 +1,7 @@
+import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CartItem } from '../components/CartItem';
 import { EmptyState } from '../components/EmptyState';
 import { colors, radius, spacing, typography } from '../constants/theme';
@@ -8,6 +10,7 @@ import { formatPrice } from '../utils/formatPrice';
 
 export default function CartScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const { lines, total, increment, decrement, removeItem } = useCartSummary();
 
   if (lines.length === 0) {
@@ -36,13 +39,14 @@ export default function CartScreen() {
           />
         )}
       />
-      <View style={styles.footer}>
+      <View style={[styles.footer, { paddingBottom: insets.bottom + spacing.sm }]}>
         <View style={styles.totalRow}>
           <Text style={styles.totalLabel}>Total</Text>
           <Text style={styles.totalValue}>{formatPrice(total)}</Text>
         </View>
-        <Pressable style={styles.checkoutButton} onPress={() => router.push('./checkout')}>
+        <Pressable style={styles.checkoutButton} onPress={() => router.push('/checkout')}>
           <Text style={styles.checkoutButtonText}>Continuar al pago</Text>
+          <Ionicons name="arrow-forward" size={18} color={colors.primaryText} />
         </Pressable>
       </View>
     </View>
@@ -53,7 +57,8 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   list: { padding: spacing.md },
   footer: {
-    padding: spacing.md,
+    paddingHorizontal: spacing.md,
+    paddingTop: spacing.md,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: colors.border,
     gap: spacing.sm,
@@ -62,10 +67,13 @@ const styles = StyleSheet.create({
   totalLabel: { ...typography.subtitle, color: colors.text },
   totalValue: { ...typography.title, color: colors.text },
   checkoutButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: spacing.xs,
     backgroundColor: colors.primary,
     borderRadius: radius.md,
     paddingVertical: spacing.md,
-    alignItems: 'center',
   },
   checkoutButtonText: { ...typography.subtitle, color: colors.primaryText },
 });

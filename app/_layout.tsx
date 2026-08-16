@@ -24,8 +24,10 @@ export default function RootLayout() {
         <Stack
           screenOptions={{
             headerStyle: { backgroundColor: colors.background },
+            headerShadowVisible: false,
+            headerTitleAlign: 'left',
             headerTintColor: colors.text,
-            headerTitleStyle: { fontWeight: '700' },
+            headerTitleStyle: { fontWeight: '700', fontSize: 18 },
             contentStyle: { backgroundColor: colors.background },
           }}
         >
@@ -40,10 +42,7 @@ export default function RootLayout() {
           />
           <Stack.Screen name="cart" options={{ title: 'Carrito' }} />
           <Stack.Screen name="checkout" options={{ title: 'Pago' }} />
-          <Stack.Screen
-            name="success"
-            options={{ headerShown: false, gestureEnabled: false }}
-          />
+          <Stack.Screen name="success" options={{ headerShown: false, gestureEnabled: false }} />
         </Stack>
       </SafeAreaProvider>
     </QueryClientProvider>

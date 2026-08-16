@@ -1,5 +1,7 @@
-import { useLocalSearchParams } from 'expo-router';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ErrorState } from '../../components/ErrorState';
 import { LoadingState } from '../../components/LoadingState';
 import { QuantitySelector } from '../../components/QuantitySelector';
@@ -31,35 +33,85 @@ export default function ProductDetailScreen() {
 }
 
 function ProductDetailContent({ product }: { product: Product }) {
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
   const { quantity, increment, decrement } = useCartItem(product);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Image source={{ uri: product.image }} style={styles.image} resizeMode="contain" />
-      <Text style={styles.category}>{product.category}</Text>
-      <Text style={styles.title}>{product.title}</Text>
-      <View style={styles.row}>
-        <Text style={styles.price}>{formatPrice(product.price)}</Text>
-        <Text style={styles.rating}>
-          ⭐ {product.rating.rate} ({product.rating.count})
-        </Text>
-      </View>
-      <Text style={styles.description}>{product.description}</Text>
-      <View style={styles.selectorWrapper}>
+    <View style={styles.screen}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <View style={styles.imageWrapper}>
+          <Image source={{ uri: product.image }} style={styles.image} resizeMode="contain" />
+        </View>
+
+        <View style={styles.body}>
+          <View style={styles.metaRow}>
+            <Text style={styles.category}>{product.category}</Text>
+            <View style={styles.ratingRow}>
+              <Ionicons name="star" size={14} color={colors.star} />
+              <Text style={styles.ratingText}>
+                {product.rating.rate.toFixed(1)} ({product.rating.count} reseñas)
+              </Text>
+            </View>
+          </View>
+
+          <Text style={styles.title}>{product.title}</Text>
+          <Text style={styles.price}>{formatPrice(product.price)}</Text>
+
+          <Text style={styles.sectionTitle}>Descripción</Text>
+          <Text style={styles.description}>{product.description}</Text>
+        </View>
+      </ScrollView>
+
+      <View style={[styles.footer, { paddingBottom: insets.bottom + spacing.sm }]}>
         <QuantitySelector quantity={quantity} onIncrement={increment} onDecrement={decrement} />
+        <Pressable style={styles.cartButton} onPress={() => router.push('/cart')}>
+          <Ionicons name="cart-outline" size={18} color={colors.primaryText} />
+          <Text style={styles.cartButtonText}>Ir al carrito</Text>
+        </Pressable>
       </View>
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { padding: spacing.lg, gap: spacing.sm, backgroundColor: colors.background },
-  image: { width: '100%', height: 260, borderRadius: radius.md, backgroundColor: colors.surface },
-  category: { ...typography.caption, color: colors.textSecondary, textTransform: 'uppercase' },
-  title: { ...typography.title, color: colors.text },
-  row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  price: { ...typography.price, fontSize: 20, color: colors.text },
-  rating: { ...typography.body, color: colors.textSecondary },
-  description: { ...typography.body, color: colors.text, lineHeight: 20 },
-  selectorWrapper: { marginTop: spacing.md },
+  screen: { flex: 1, backgroundColor: colors.background },
+  scrollContent: { paddingBottom: spacing.lg },
+  imageWrapper: {
+    height: 280,
+    backgroundColor: colors.surface,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  image: { width: '70%', height: '70%' },
+  body: { padding: spacing.lg, gap: spacing.xs },
+  metaRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  category: { ...typography.caption, color: colors.textSecondary, textTransform: 'capitalize' },
+  ratingRow: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+  ratingText: { ...typography.caption, color: colors.textSecondary },
+  title: { ...typography.title, color: colors.text, marginTop: spacing.xs },
+  price: { ...typography.price, fontSize: 22, color: colors.primary, marginBottom: spacing.sm },
+  sectionTitle: { ...typography.subtitle, color: colors.text, marginTop: spacing.sm },
+  description: { ...typography.body, color: colors.textSecondary, lineHeight: 20 },
+  footer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    paddingHorizontal: spacing.md,
+    paddingTop: spacing.md,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: colors.border,
+    backgroundColor: colors.background,
+  },
+  cartButton: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: spacing.xs,
+    backgroundColor: colors.primary,
+    borderRadius: radius.md,
+    paddingVertical: spacing.md,
+  },
+  cartButtonText: { ...typography.subtitle, color: colors.primaryText },
 });

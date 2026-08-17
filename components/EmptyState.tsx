@@ -48,10 +48,10 @@ const styles = StyleSheet.create({
   message: { ...typography.body, color: colors.textSecondary, textAlign: 'center' },
   button: {
     marginTop: spacing.md,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.accent,
     paddingVertical: spacing.sm,
     paddingHorizontal: spacing.lg,
     borderRadius: radius.md,
   },
-  buttonText: { ...typography.subtitle, color: colors.primaryText },
+  buttonText: { ...typography.subtitle, color: colors.accentText },
 });

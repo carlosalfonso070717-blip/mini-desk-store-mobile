@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "temp-mds",
-    "slug": "temp-mds",
+    "name": "Mini Desk Store",
+    "slug": "mini-desk-store",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "tempmds",
+    "scheme": "minideskstore",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {

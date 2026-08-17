@@ -29,10 +29,10 @@ const styles = StyleSheet.create({
     minWidth: 18,
     height: 18,
     borderRadius: radius.full,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.accent,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 4,
   },
-  badgeText: { color: colors.primaryText, fontSize: 11, fontWeight: '700' },
+  badgeText: { color: colors.accentText, fontSize: 11, fontWeight: '700' },
 });

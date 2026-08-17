@@ -46,7 +46,7 @@ export default function CartScreen() {
         </View>
         <Pressable style={styles.checkoutButton} onPress={() => router.push('/checkout')}>
           <Text style={styles.checkoutButtonText}>Proceed to Payment</Text>
-          <Ionicons name="arrow-forward" size={18} color={colors.primaryText} />
+          <Ionicons name="arrow-forward" size={18} color={colors.accentText} />
         </Pressable>
       </View>
     </View>
@@ -71,9 +71,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: spacing.xs,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.accent,
     borderRadius: radius.md,
     paddingVertical: spacing.md,
   },
-  checkoutButtonText: { ...typography.subtitle, color: colors.primaryText },
+  checkoutButtonText: { ...typography.subtitle, color: colors.accentText },
 });

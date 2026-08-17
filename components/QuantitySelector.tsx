@@ -12,8 +12,8 @@ export function QuantitySelector({ quantity, onIncrement, onDecrement }: Quantit
   if (quantity === 0) {
     return (
       <Pressable onPress={onIncrement} style={styles.addButton} hitSlop={8}>
-        <Ionicons name="add" size={16} color={colors.primaryText} />
-        <Text style={styles.addButtonText}>Agregar</Text>
+        <Ionicons name="add" size={16} color={colors.accentText} />
+        <Text style={styles.addButtonText}>Add</Text>
       </Pressable>
     );
   }
@@ -36,13 +36,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.accent,
     borderRadius: radius.full,
     paddingVertical: spacing.xs,
     paddingHorizontal: spacing.md,
     alignSelf: 'flex-start',
   },
-  addButtonText: { ...typography.body, color: colors.primaryText, fontWeight: '600' },
+  addButtonText: { ...typography.body, color: colors.accentText, fontWeight: '600' },
   stepper: {
     flexDirection: 'row',
     alignItems: 'center',

@@ -50,7 +50,7 @@ function ProductDetailContent({ product }: { product: Product }) {
             <View style={styles.ratingRow}>
               <Ionicons name="star" size={14} color={colors.star} />
               <Text style={styles.ratingText}>
-                {product.rating.rate.toFixed(1)} ({product.rating.count} reseñas)
+                {product.rating.rate.toFixed(1)} ({product.rating.count} reviews)
               </Text>
             </View>
           </View>
@@ -66,8 +66,8 @@ function ProductDetailContent({ product }: { product: Product }) {
       <View style={[styles.footer, { paddingBottom: insets.bottom + spacing.sm }]}>
         <QuantitySelector quantity={quantity} onIncrement={increment} onDecrement={decrement} />
         <Pressable style={styles.cartButton} onPress={() => router.push('/cart')}>
-          <Ionicons name="cart-outline" size={18} color={colors.primaryText} />
-          <Text style={styles.cartButtonText}>Go to cart</Text>
+          <Ionicons name="cart-outline" size={18} color={colors.accentText} />
+          <Text style={styles.cartButtonText}>Go to Cart</Text>
         </Pressable>
       </View>
     </View>
@@ -109,9 +109,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: spacing.xs,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.accent,
     borderRadius: radius.md,
     paddingVertical: spacing.md,
   },
-  cartButtonText: { ...typography.subtitle, color: colors.primaryText },
+  cartButtonText: { ...typography.subtitle, color: colors.accentText },
 });

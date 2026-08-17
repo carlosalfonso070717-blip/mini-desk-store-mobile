@@ -94,10 +94,10 @@ const styles = StyleSheet.create({
   button: {
     width: '100%',
     maxWidth: 360,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.accent,
     paddingVertical: spacing.md,
     borderRadius: radius.md,
     alignItems: 'center',
   },
-  buttonText: { ...typography.subtitle, color: colors.primaryText },
+  buttonText: { ...typography.subtitle, color: colors.accentText },
 });

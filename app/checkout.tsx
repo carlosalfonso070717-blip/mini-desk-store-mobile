@@ -127,10 +127,10 @@ export default function CheckoutScreen() {
           disabled={isProcessing}
         >
           {isProcessing ? (
-            <ActivityIndicator color={colors.primaryText} />
+            <ActivityIndicator color={colors.accentText} />
           ) : (
             <>
-              <Ionicons name="lock-closed" size={16} color={colors.primaryText} />
+              <Ionicons name="lock-closed" size={16} color={colors.accentText} />
               <Text style={styles.confirmButtonText}>Confirm Payment</Text>
             </>
           )}
@@ -186,10 +186,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: spacing.xs,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.accent,
     borderRadius: radius.md,
     paddingVertical: spacing.md,
   },
   confirmButtonDisabled: { opacity: 0.6 },
-  confirmButtonText: { ...typography.subtitle, color: colors.primaryText },
+  confirmButtonText: { ...typography.subtitle, color: colors.accentText },
 });
